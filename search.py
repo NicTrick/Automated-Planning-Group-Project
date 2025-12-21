@@ -1,8 +1,3 @@
-"""
-Search algorithms for the Soko Solver.
-Implements BFS, Greedy Best-First, A*, and Enforced Hill Climbing.
-"""
-
 from typing import List, Tuple, Callable, Optional
 from collections import deque
 import heapq
@@ -13,23 +8,22 @@ from actions import get_successors, is_goal_state
 
 
 class SearchResult:
-    """Container for search results and statistics."""
+    #Container for search results and statistics.
     def __init__(self):
-        self.plan: List[str] = []
-        self.success: bool = False
-        self.time_taken: float = 0.0
-        self.states_generated: int = 0
-        self.states_expanded: int = 0
-        self.plan_length: int = 0
+        self.plan: List[str] = [] # Sequence of actions forming the solution plan
+        self.success: bool = False # Will indicate whether a solution was found
+        self.time_taken: float = 0.0 # Time taken for the search to be performed
+        self.states_generated: int = 0 # Number of states generated during search
+        self.states_expanded: int = 0 # Number of states expanded during search
+        self.plan_length: int = 0 # Length of the solution plan
 
 
 def reconstruct_plan(came_from: dict, goal_state: State) -> List[str]:
-    """
-    Reconstruct the plan (sequence of actions) from the goal state back to initial state.
-    """
+    # Reconstruct the plan (sequence of actions) from the goal state back to initial state.
     plan = []
     current = goal_state
     
+    # Backtrack from goal state to start state
     while current in came_from:
         current, action = came_from[current]
         if action:
@@ -40,16 +34,14 @@ def reconstruct_plan(came_from: dict, goal_state: State) -> List[str]:
 
 
 def breadth_first_search(maze: Maze, initial_state: State) -> SearchResult:
-    """
-    Breadth-First Search - explores all states at depth d before depth d+1.
-    Guarantees optimal solution (shortest plan).
-    """
+    # Breadth-First Search - explores all states at depth 'd' before depth 'd+1'.
+    # Guarantees optimal solution (shortest plan).
     result = SearchResult()
     start_time = time.time()
     
-    frontier = deque([initial_state])
-    explored = {state_key(initial_state)}
-    came_from = {}
+    frontier = deque([initial_state]) # Queue of states to be explored
+    explored = {state_key(initial_state)} # Set of visited states
+    came_from = {} # To reconstruct the plan later
     
     result.states_generated = 1
     
@@ -57,6 +49,7 @@ def breadth_first_search(maze: Maze, initial_state: State) -> SearchResult:
         current_state = frontier.popleft()
         result.states_expanded += 1
         
+        # Check if the current state stisfies the goal condition
         if is_goal_state(maze, current_state):
             result.success = True
             result.plan = reconstruct_plan(came_from, current_state)
@@ -64,6 +57,7 @@ def breadth_first_search(maze: Maze, initial_state: State) -> SearchResult:
             result.time_taken = time.time() - start_time
             return result
         
+        # Generate and process all successor states
         for successor, action in get_successors(maze, current_state):
             successor_key = state_key(successor)
             
@@ -78,17 +72,15 @@ def breadth_first_search(maze: Maze, initial_state: State) -> SearchResult:
 
 
 def greedy_best_first_search(maze: Maze, initial_state: State, heuristic: Callable) -> SearchResult:
-    """
-    Greedy Best-First Search - expands states with lowest heuristic value first.
-    Uses priority queue ordered by h(n).
-    """
+    # Greedy Best-First Search - expands states with lowest heuristic value first.
+    # Uses priority queue ordered by h(n).
     result = SearchResult()
     start_time = time.time()
     
-    frontier = []
+    frontier = [] # Queue of states to be explored
     heapq.heappush(frontier, (heuristic(maze, initial_state), 0, initial_state))
-    explored = {state_key(initial_state)}
-    came_from = {}
+    explored = {state_key(initial_state)} # Set of visited states
+    came_from = {} # To reconstruct the plan later
     
     result.states_generated = 1
     counter = 1  # Tie-breaker for heap
@@ -97,6 +89,7 @@ def greedy_best_first_search(maze: Maze, initial_state: State, heuristic: Callab
         _, _, current_state = heapq.heappop(frontier)
         result.states_expanded += 1
         
+        # Check goal condition
         if is_goal_state(maze, current_state):
             result.success = True
             result.plan = reconstruct_plan(came_from, current_state)
@@ -104,6 +97,7 @@ def greedy_best_first_search(maze: Maze, initial_state: State, heuristic: Callab
             result.time_taken = time.time() - start_time
             return result
         
+        # Expand successors using heuristic ordering
         for successor, action in get_successors(maze, current_state):
             successor_key = state_key(successor)
             
@@ -120,20 +114,18 @@ def greedy_best_first_search(maze: Maze, initial_state: State, heuristic: Callab
 
 
 def a_star_search(maze: Maze, initial_state: State, heuristic: Callable) -> SearchResult:
-    """
-    A* Search - expands states with lowest f(n) = g(n) + h(n).
-    Guarantees optimal solution if heuristic is admissible.
-    """
+    # A* Search - expands states with lowest f(n) = g(n) + h(n).
+    # Guarantees optimal solution if heuristic is admissible.
     result = SearchResult()
     start_time = time.time()
     
-    frontier = []
+    frontier = [] # Queue of states to be explored
     initial_f = initial_state.g + heuristic(maze, initial_state)
     heapq.heappush(frontier, (initial_f, 0, initial_state))
-    explored = set()
-    came_from = {}
+    explored = set() # Set of visited states
+    came_from = {} # To reconstruct the plan later
     
-    # Keep track of best g-values for each state
+    # Keep track of best g-values for each state - The best cost for each state
     g_values = {state_key(initial_state): initial_state.g}
     
     result.states_generated = 1
@@ -143,12 +135,14 @@ def a_star_search(maze: Maze, initial_state: State, heuristic: Callable) -> Sear
         _, _, current_state = heapq.heappop(frontier)
         current_key = state_key(current_state)
         
+        # Skip states already expanded
         if current_key in explored:
             continue
         
         explored.add(current_key)
         result.states_expanded += 1
         
+        # Check for goal state
         if is_goal_state(maze, current_state):
             result.success = True
             result.plan = reconstruct_plan(came_from, current_state)
@@ -156,6 +150,7 @@ def a_star_search(maze: Maze, initial_state: State, heuristic: Callable) -> Sear
             result.time_taken = time.time() - start_time
             return result
         
+        # Expand successors and update costs (g-values)
         for successor, action in get_successors(maze, current_state):
             successor_key = state_key(successor)
             
@@ -174,12 +169,8 @@ def a_star_search(maze: Maze, initial_state: State, heuristic: Callable) -> Sear
     result.time_taken = time.time() - start_time
     return result
 
-
+# Enforced Hill Climbing - iteratively improves heuristic value using BFS. Performs BFS until a state with better heuristic is found, then repeats.
 def enforced_hill_climbing(maze: Maze, initial_state: State, heuristic: Callable) -> SearchResult:
-    """
-    Enforced Hill Climbing - iteratively improves heuristic value using BFS.
-    Performs BFS until a state with better heuristic is found, then repeats.
-    """
     result = SearchResult()
     start_time = time.time()
     
@@ -190,11 +181,12 @@ def enforced_hill_climbing(maze: Maze, initial_state: State, heuristic: Callable
     
     while not is_goal_state(maze, current_state):
         # BFS to find state with better heuristic
-        frontier = deque([current_state])
-        explored = {state_key(current_state)}
-        came_from = {}
+        frontier = deque([current_state]) # Queue of states to be explored
+        explored = {state_key(current_state)} # Set of visited states
+        came_from = {} # To reconstruct the plan later
         found_better = False
         
+        # Keep on performing BFS until a better state is found
         while frontier and not found_better:
             state = frontier.popleft()
             result.states_expanded += 1
@@ -214,6 +206,8 @@ def enforced_hill_climbing(maze: Maze, initial_state: State, heuristic: Callable
                         # Reconstruct path from current to successor
                         path_actions = []
                         s = successor
+                        
+                        #Reconstruct path to improved state
                         while s != current_state and s in came_from:
                             prev_state, prev_action = came_from[s]
                             path_actions.append(prev_action)
@@ -229,8 +223,8 @@ def enforced_hill_climbing(maze: Maze, initial_state: State, heuristic: Callable
                     
                     frontier.append(successor)
         
+        # Fail if no better state found
         if not found_better:
-            # No improvement possible - failed
             result.time_taken = time.time() - start_time
             return result
     
@@ -240,35 +234,27 @@ def enforced_hill_climbing(maze: Maze, initial_state: State, heuristic: Callable
     result.time_taken = time.time() - start_time
     return result
 
-
+# Run the specified search algorithm. Dispatches execution to the selected search algorithm with the given parameters.
 def run_search(maze: Maze, initial_state: State, algorithm: str, heuristic: Optional[Callable] = None) -> SearchResult:
-    """
-    Run the specified search algorithm.
-    
-    Args:
-        maze: The maze to search
-        initial_state: Starting state
-        algorithm: One of 'bfs', 'greedy', 'astar', 'ehc'
-        heuristic: Heuristic function (required for greedy, astar, ehc)
-    
-    Returns:
-        SearchResult with plan and statistics
-    """
     algorithm = algorithm.lower()
     
-    if algorithm == 'bfs':
+    if algorithm == 'bfs': # Breadth-First Search does not require a heuristic
         return breadth_first_search(maze, initial_state)
-    elif algorithm == 'greedy':
+    
+    elif algorithm == 'greedy': # A* Search requires a heuristic to compute f(n) = g(n) + h(n)
         if not heuristic:
             raise ValueError("Heuristic required for Greedy Best-First Search")
         return greedy_best_first_search(maze, initial_state, heuristic)
-    elif algorithm == 'astar':
+    
+    elif algorithm == 'astar': # A* Search requires a heuristic to compute f(n) = g(n) + h(n)
         if not heuristic:
             raise ValueError("Heuristic required for A* Search")
         return a_star_search(maze, initial_state, heuristic)
-    elif algorithm == 'ehc':
+    
+    elif algorithm == 'ehc': # Enforced Hill Climbing relies on heuristic improvement
         if not heuristic:
             raise ValueError("Heuristic required for Enforced Hill Climbing")
         return enforced_hill_climbing(maze, initial_state, heuristic)
-    else:
+    
+    else: # Fail if an unknown algorithm is requested
         raise ValueError(f"Unknown algorithm: {algorithm}")
