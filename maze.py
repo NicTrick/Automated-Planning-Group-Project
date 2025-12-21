@@ -21,9 +21,15 @@ def parse_maze_file(file_path: str, debug: bool = False) -> Tuple[Maze, State]:
     Use it as follows:
     maze, initial_state = parse_maze_file(file_path, debug)
     """
-    with open(file_path, 'r') as file:
-        reader = csv.reader(file)
-        map = list(reader)
+    
+    try:
+        with open(file_path, 'r') as file:
+            reader = csv.reader(file)
+            map = list(reader)
+    except FileNotFoundError:
+        print(f"Maze file not found at {file_path}. Aborting...")
+        exit(1)
+    
         
     if debug:
         for row in map:
@@ -56,16 +62,16 @@ def parse_maze_file(file_path: str, debug: bool = False) -> Tuple[Maze, State]:
                 
                 case _:
                     if re.match(r'^B-[A-Z]$', object):
-                        boxes[object[2]] = {'x': x, 'y': y}
+                        boxes[object[2]] = (x, y)
                         
                     elif re.match(r'^Z-[A-Z]$', object):
-                        zones[object[2]] = {'x': x, 'y': y}
+                        zones[object[2]] = (x, y)
                         
                     elif re.match(r'^K-[0-9]$', object):
-                        keys[object[2:]] = {'x': x, 'y': y}
+                        keys[object[2:]] = (x, y)
                         
                     elif re.match(r'^D-[0-9]$', object):
-                        doors[object[2:]] = {'x': x, 'y': y}
+                        doors[object[2:]] = (x, y)
 
                     else:
                         raise ValueError("Invalid format " + object + " detected in maze file.")
@@ -76,7 +82,7 @@ def parse_maze_file(file_path: str, debug: bool = False) -> Tuple[Maze, State]:
         print("Soku's Position:", soku_coords)
 
         print("Walls:")
-        print("Total Walls:", len(walls))
+        print("Total Walls:", len(walls)) 
         print(walls)
         
         print("Boxes:")

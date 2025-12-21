@@ -1,5 +1,8 @@
 from dataclasses import dataclass
-from typing import Dict, Tuple, FrozenSet, Optional, List
+from typing import Dict, Tuple, FrozenSet, Optional, List, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from maze import Maze
 
 @dataclass(frozen=True)
 class State:
@@ -53,3 +56,26 @@ def keys_floor_dict(state: State) -> Dict[str, Tuple[int, int]]:
     Returns a dictionary view of keys on the floor for algorithms if needed.
     """
     return dict(state.keys_on_floor)
+
+#Goal State - Checking if the positions of the boxes equals the position of the drop zones
+def is_goal_state(state: State, maze: "Maze") -> bool:
+    """
+    Returns True if all boxes are in their designated drop zones.
+    """
+
+    # If the robot is still carrying a box, goal is not satisfied
+    if state.carried_box is not None:
+        return False
+
+    boxes = boxes_dict(state)
+
+    for box_id, box_pos in boxes.items():
+        # Every box must have a corresponding zone
+        if box_id not in maze.zones:
+            return False
+
+        # Box must be exactly at its drop zone
+        if maze.zones[box_id] != box_pos:
+            return False
+
+    return True
