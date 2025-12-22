@@ -48,9 +48,9 @@ def boxes_dict(state: State) -> Dict[str, Tuple[int, int]]:
 def keys_floor_dict(state: State) -> Dict[str, Tuple[int, int]]:
     return dict(state.keys_on_floor)
 
-# Goal State - Checking if the positions of the boxes equals the position of the drop zones
-# Returns True if all boxes are in their designated drop zones.
+# Goal State - Checking if the positions of the boxes equals the position of the drop zones. Returns True if all boxes are in their designated drop zones.
 def is_goal_state(state: State, maze: "Maze") -> bool:
+    
     # If soko is still carrying a box, goal is not satisfied
     if state.carried_box is not None:
         return False

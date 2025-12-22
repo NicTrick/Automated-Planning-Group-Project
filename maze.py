@@ -71,31 +71,31 @@ def parse_maze_file(file_path: str, debug: bool = False) -> Tuple[Maze, State]:
                         raise ValueError("Invalid format " + object + " detected in maze file.")
                     continue
     
-    # If debug mode is enabled, print the parsed maze elements
+    # If debug mode is enabled, the parsed maze elements will be printed
     # This time the maze map will include Soko's position, walls, boxes, zones, keys, and doors
     if debug:
         print("Parsed Maze Elements:")
-        print("Soko's Position:", soko_coords)
-
+        print("Soko's Position:", soko_coords) # Print the starting position of Soko
+ 
         print("Walls:")
-        print("Total Walls:", len(walls))
+        print("Total Walls:", len(walls)) # Print the total number of walls
         print(walls)
         
         print("Boxes:")
         for dictionary in boxes.items():
-            print("\t", dictionary)
+            print("\t", dictionary) # Print each box ID and its position
         
         print("Zones:")
         for dictionary in zones.items():
-            print("\t", dictionary)
+            print("\t", dictionary) # Print each zone ID and its position
         
         print("Keys:")
         for dictionary in keys.items():
-            print("\t", dictionary)
+            print("\t", dictionary) # Print each key ID and its position
         
         print("Doors:")
         for dictionary in doors.items():
-            print("\t", dictionary)
+            print("\t", dictionary) # Print each door ID and its position
 
     # Create the Maze object from the parsed data
     maze = Maze(
@@ -116,26 +116,23 @@ def parse_maze_file(file_path: str, debug: bool = False) -> Tuple[Maze, State]:
 
 # Utility functions for state expansion
 
+# Returns True if the position is a wall.
 def is_wall(maze: Maze, pos: tuple[int, int]) -> bool:
-    # Returns True if the position is a wall.
     return pos in maze.walls
 
-
+# Returns True if the position contains a door (regardless of lock state).
 def is_door(maze: Maze, pos: tuple[int, int]) -> bool:
     # Returns True if the position contains a door (regardless of lock state).
     return pos in maze.doors.values()
 
-# Further utility functions given by ChatGPT
-
+# Returns the door ID at a position, or None if no door is present.
 def door_id_at(maze: Maze, pos: tuple[int, int]) -> str | None:
-    # Returns the door ID at a position, or None if no door is present.
     for door_id, door_pos in maze.doors.items():
         if door_pos == pos:
             return door_id
     return None
 
-
+# Returns True if position is inside the maze boundaries.
 def in_bounds(maze: Maze, pos: tuple[int, int]) -> bool:
-    # Returns True if position is inside the maze boundaries.
     x, y = pos
     return 0 <= x < maze.width and 0 <= y < maze.height

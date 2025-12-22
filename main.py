@@ -56,7 +56,7 @@ def validate_plan(maze: Maze, initial_state: State, plan: list) -> bool:
         print("Plan does not reach goal state!")
         return False
 
-
+# Make a visualized representation of the maze and current states
 def visualize_maze(maze: Maze, state: State):
     
     # Create grid

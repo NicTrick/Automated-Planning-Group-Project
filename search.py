@@ -6,9 +6,9 @@ from state import State, state_key
 from maze import Maze
 from actions import get_successors, is_goal_state
 
-
+#Container for search results and statistics.
 class SearchResult:
-    #Container for search results and statistics.
+    
     def __init__(self):
         self.plan: List[str] = [] # Sequence of actions forming the solution plan
         self.success: bool = False # Will indicate whether a solution was found
@@ -16,10 +16,9 @@ class SearchResult:
         self.states_generated: int = 0 # Number of states generated during search
         self.states_expanded: int = 0 # Number of states expanded during search
         self.plan_length: int = 0 # Length of the solution plan
-
-
+        
+# Reconstruct the plan (sequence of actions) from the goal state back to initial state.
 def reconstruct_plan(came_from: dict, goal_state: State) -> List[str]:
-    # Reconstruct the plan (sequence of actions) from the goal state back to initial state.
     plan = []
     current = goal_state
     
@@ -32,10 +31,9 @@ def reconstruct_plan(came_from: dict, goal_state: State) -> List[str]:
     plan.reverse()
     return plan
 
-
+# Breadth-First Search - explores all states at depth 'd' before depth 'd+1'. Guarantees optimal solution (shortest plan).
 def breadth_first_search(maze: Maze, initial_state: State) -> SearchResult:
-    # Breadth-First Search - explores all states at depth 'd' before depth 'd+1'.
-    # Guarantees optimal solution (shortest plan).
+    
     result = SearchResult()
     start_time = time.time()
     
@@ -70,10 +68,8 @@ def breadth_first_search(maze: Maze, initial_state: State) -> SearchResult:
     result.time_taken = time.time() - start_time
     return result
 
-
+# Greedy Best-First Search - expands states with lowest heuristic value first. Uses priority queue ordered by h(n).
 def greedy_best_first_search(maze: Maze, initial_state: State, heuristic: Callable) -> SearchResult:
-    # Greedy Best-First Search - expands states with lowest heuristic value first.
-    # Uses priority queue ordered by h(n).
     result = SearchResult()
     start_time = time.time()
     
@@ -112,10 +108,8 @@ def greedy_best_first_search(maze: Maze, initial_state: State, heuristic: Callab
     result.time_taken = time.time() - start_time
     return result
 
-
+# A* Search - expands states with lowest f(n) = g(n) + h(n). Guarantees optimal solution if heuristic is admissible.
 def a_star_search(maze: Maze, initial_state: State, heuristic: Callable) -> SearchResult:
-    # A* Search - expands states with lowest f(n) = g(n) + h(n).
-    # Guarantees optimal solution if heuristic is admissible.
     result = SearchResult()
     start_time = time.time()
     

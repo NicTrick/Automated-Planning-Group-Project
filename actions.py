@@ -2,9 +2,8 @@ from typing import List, Tuple, Optional
 from state import State
 from maze import Maze
 
+# Check if Soko can move to a position (no wall, no locked door).
 def can_move_to(maze: Maze, state: State, new_pos: Tuple[int, int]) -> bool:
-    # Check if Soko can move to a position (no wall, no locked door).
-    
     from maze import is_wall, in_bounds, door_id_at
     
     if not in_bounds(maze, new_pos):
@@ -20,10 +19,8 @@ def can_move_to(maze: Maze, state: State, new_pos: Tuple[int, int]) -> bool:
     
     return True
 
-
+# Move Soko to a new position.
 def move_soko(state: State, new_pos: Tuple[int, int], action_name: str) -> State:
-    # Move Soko to a new position.
-    
     return State(
         soko_pos=new_pos,
         carried_box=state.carried_box,
@@ -33,10 +30,8 @@ def move_soko(state: State, new_pos: Tuple[int, int], action_name: str) -> State
         g=state.g + 1
     )
 
-
+# Take a key that's on the floor at Soko's location.
 def take_key(state: State, key_id: str) -> State:
-    # Take a key that's on the floor at Soko's location.
-    
     # Remove the key from the floor
     new_keys_on_floor = tuple(
         (k_id, pos) for k_id, pos in state.keys_on_floor if k_id != key_id
@@ -54,10 +49,8 @@ def take_key(state: State, key_id: str) -> State:
         g=state.g + 1
     )
 
-
+# Lift a box at Soko's location.
 def lift_box(state: State, box_id: str) -> State:
-    # Lift a box at Soko's location.
-    
     return State(
         soko_pos=state.soko_pos,
         carried_box=box_id,
@@ -67,10 +60,8 @@ def lift_box(state: State, box_id: str) -> State:
         g=state.g + 1
     )
 
-
+# Drop a box at its designated drop zone
 def drop_box(state: State, box_id: str, zone_pos: Tuple[int, int]) -> State:
-    # Drop a box at its designated drop zone.
-    
     # Update box position to zone position
     new_box_positions = tuple(
         (b_id, zone_pos if b_id == box_id else pos)
@@ -87,10 +78,8 @@ def drop_box(state: State, box_id: str, zone_pos: Tuple[int, int]) -> State:
     )
 
 
+# Generate all valid successor states and their corresponding actions. Returns a list of tuples (new_state, action_name)
 def get_successors(maze: Maze, state: State) -> List[Tuple[State, str]]:
-    # Generate all valid successor states and their corresponding actions.
-    # Returns a list of (new_state, action_name) tuples.
-    
     successors = []
     x, y = state.soko_pos
     
@@ -131,10 +120,8 @@ def get_successors(maze: Maze, state: State) -> List[Tuple[State, str]]:
     
     return successors
 
-
+# Check if the state is a goal state (all boxes at their zones).
 def is_goal_state(maze: Maze, state: State) -> bool:
-    # Check if the state is a goal state (all boxes at their zones).
-    
     for box_id, box_pos in state.box_positions:
         zone_pos = maze.zones.get(box_id)
         if zone_pos != box_pos:

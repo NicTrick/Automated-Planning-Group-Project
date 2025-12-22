@@ -3,9 +3,11 @@ from typing import Tuple
 from state import State, boxes_dict
 from maze import Maze
 
+# Heuristic 1: Manhattan Distance Heuristic
 def manhattan_distance(pos1: Tuple[int, int], pos2: Tuple[int, int]) -> int:
     return abs(pos1[0] - pos2[0]) + abs(pos1[1] - pos2[1])
 
+# Heuristic 2: Euclidean Distance Heuristic
 def euclidean_distance(pos1: Tuple[int, int], pos2: Tuple[int, int]) -> float:
     return math.sqrt((pos1[0] - pos2[0])**2 + (pos1[1] - pos2[1])**2)
 
