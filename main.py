@@ -97,7 +97,7 @@ def visualize_maze(maze: Maze, state: State):
     # Add Soko
     rx, ry = state.soko_pos
     if state.carried_box: # Check if Soko is carrying a box
-        grid[ry][rx] = f'SO-{state.carried_box}'
+        grid[ry][rx] = f'SOKO-{state.carried_box}'
     else: # Soko is not carrying a box
         grid[ry][rx] = 'SOKO'
     
