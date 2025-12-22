@@ -174,7 +174,7 @@ def enforced_hill_climbing(maze: Maze, initial_state: State, heuristic: Callable
     result.states_generated = 1
     
     while not is_goal_state(maze, current_state):
-        # BFS to find state with better heuristic
+        # BFS to find state with better heuristic or goal state
         frontier = deque([current_state]) # Queue of states to be explored
         explored = {state_key(current_state)} # Set of visited states
         came_from = {} # To reconstruct the plan later
@@ -192,6 +192,26 @@ def enforced_hill_climbing(maze: Maze, initial_state: State, heuristic: Callable
                     explored.add(successor_key)
                     came_from[successor] = (state, action)
                     result.states_generated += 1
+                    
+                    # Check if this successor is the goal
+                    if is_goal_state(maze, successor):
+                        # Reconstruct path from current to goal
+                        path_actions = []
+                        s = successor
+                        
+                        while s != current_state and s in came_from:
+                            prev_state, prev_action = came_from[s]
+                            path_actions.append(prev_action)
+                            s = prev_state
+                        
+                        path_actions.reverse()
+                        plan.extend(path_actions)
+                        
+                        result.success = True
+                        result.plan = plan
+                        result.plan_length = len(plan)
+                        result.time_taken = time.time() - start_time
+                        return result
                     
                     successor_h = heuristic(maze, successor)
                     
@@ -215,6 +235,7 @@ def enforced_hill_climbing(maze: Maze, initial_state: State, heuristic: Callable
                         found_better = True
                         break
                     
+                    # Only add to frontier if we haven't found a better state yet
                     frontier.append(successor)
         
         # Fail if no better state found
