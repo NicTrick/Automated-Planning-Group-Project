@@ -3,7 +3,7 @@ import re
 from typing import Dict, Tuple, Set
 
 debug = False
-    
+
 def parse_maze_file(file_path: str):
     # Reads a maze CSV file, extracts all maze objects, and returns a Maze object and the initial State.
 
@@ -265,4 +265,4 @@ if __name__ == "__main__":
         debug = True
     
     file_path = input("\nPlease enter the path to your maze: ").strip()
-    generate_problem_file(file_path, "Problem!!!", "output.pddl")
+    generate_problem_file(file_path, "problem", "problem.pddl")

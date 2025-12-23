@@ -1,4 +1,4 @@
-(define (problem Problem!!!)
+(define (problem problem)
     (:domain sokodomain)
 
     (:objects
@@ -328,18 +328,7 @@
         tile_25_11 - tile
         tile_25_12 - tile
         tile_25_13 - tile
-        tile_26_1 - tile
-        tile_26_2 - tile
         tile_26_3 - tile
-        tile_26_4 - tile
-        tile_26_5 - tile
-        tile_26_6 - tile
-        tile_26_7 - tile
-        tile_26_8 - tile
-        tile_26_9 - tile
-        tile_26_10 - tile
-        tile_26_11 - tile
-        tile_26_12 - tile
         tile_26_13 - tile
         tile_27_1 - tile
         tile_27_2 - tile
@@ -427,11 +416,6 @@
         tile_33_6 - tile
         tile_33_7 - tile
         tile_33_8 - tile
-        tile_33_9 - tile
-        tile_33_10 - tile
-        tile_33_11 - tile
-        tile_33_12 - tile
-        tile_33_13 - tile
         tile_34_1 - tile
         tile_34_2 - tile
         tile_34_3 - tile
@@ -440,7 +424,6 @@
         tile_34_6 - tile
         tile_34_7 - tile
         tile_34_8 - tile
-        tile_34_9 - tile
         tile_34_10 - tile
         tile_34_11 - tile
         tile_34_12 - tile
@@ -466,7 +449,6 @@
         tile_36_6 - tile
         tile_36_7 - tile
         tile_36_8 - tile
-        tile_36_9 - tile
         tile_36_10 - tile
         tile_36_11 - tile
         tile_36_12 - tile
@@ -479,7 +461,6 @@
         tile_37_6 - tile
         tile_37_7 - tile
         tile_37_8 - tile
-        tile_37_9 - tile
         tile_37_10 - tile
         tile_37_11 - tile
         tile_37_12 - tile
@@ -492,11 +473,6 @@
         tile_38_6 - tile
         tile_38_7 - tile
         tile_38_8 - tile
-        tile_38_9 - tile
-        tile_38_10 - tile
-        tile_38_11 - tile
-        tile_38_12 - tile
-        tile_38_13 - tile
         tile_39_1 - tile
         tile_39_2 - tile
         tile_39_3 - tile
@@ -696,8 +672,20 @@
         soko - soko
         ;; Boxes
         boxA - box
+        boxB - box
+        boxC - box
+        ;; Keys
+        key1 - key
+        key2 - key
+        key3 - key
         ;; Zones
         zoneA - zone
+        zoneB - zone
+        zoneC - zone
+        ;; Doors
+        door1 - door
+        door2 - door
+        door3 - door
     )
 
     (:init
@@ -706,9 +694,26 @@
 
         ;; Box positions
         (boxat boxA tile_43_3)
+        (boxat boxB tile_20_7)
+        (boxat boxC tile_35_10)
+
+        ;; Key positions
+        (keyat key1 tile_11_2)
+        (keyat key2 tile_16_2)
+        (keyat key3 tile_41_4)
 
         ;; Zone positions
         (zoneat zoneA tile_11_12)
+        (zoneat zoneB tile_33_2)
+        (zoneat zoneC tile_20_12)
+
+        ;; Door positions and lock status
+        (doorat door1 tile_26_13)
+        (doorlocked door1)
+        (doorat door2 tile_26_3)
+        (doorlocked door2)
+        (doorat door3 tile_35_9)
+        (doorlocked door3)
 
         ;; Path adjacencies
         (path tile_1_1 tile_1_2)
@@ -1900,11 +1905,9 @@
         (path tile_24_13 tile_25_13)
         (path tile_25_1 tile_24_1)
         (path tile_25_1 tile_25_2)
-        (path tile_25_1 tile_26_1)
         (path tile_25_2 tile_24_2)
         (path tile_25_2 tile_25_1)
         (path tile_25_2 tile_25_3)
-        (path tile_25_2 tile_26_2)
         (path tile_25_3 tile_24_3)
         (path tile_25_3 tile_25_2)
         (path tile_25_3 tile_25_4)
@@ -1912,96 +1915,39 @@
         (path tile_25_4 tile_24_4)
         (path tile_25_4 tile_25_3)
         (path tile_25_4 tile_25_5)
-        (path tile_25_4 tile_26_4)
         (path tile_25_5 tile_24_5)
         (path tile_25_5 tile_25_4)
         (path tile_25_5 tile_25_6)
-        (path tile_25_5 tile_26_5)
         (path tile_25_6 tile_24_6)
         (path tile_25_6 tile_25_5)
         (path tile_25_6 tile_25_7)
-        (path tile_25_6 tile_26_6)
         (path tile_25_7 tile_24_7)
         (path tile_25_7 tile_25_6)
         (path tile_25_7 tile_25_8)
-        (path tile_25_7 tile_26_7)
         (path tile_25_8 tile_24_8)
         (path tile_25_8 tile_25_7)
         (path tile_25_8 tile_25_9)
-        (path tile_25_8 tile_26_8)
         (path tile_25_9 tile_24_9)
         (path tile_25_9 tile_25_8)
         (path tile_25_9 tile_25_10)
-        (path tile_25_9 tile_26_9)
         (path tile_25_10 tile_24_10)
         (path tile_25_10 tile_25_9)
         (path tile_25_10 tile_25_11)
-        (path tile_25_10 tile_26_10)
         (path tile_25_11 tile_24_11)
         (path tile_25_11 tile_25_10)
         (path tile_25_11 tile_25_12)
-        (path tile_25_11 tile_26_11)
         (path tile_25_12 tile_24_12)
         (path tile_25_12 tile_25_11)
         (path tile_25_12 tile_25_13)
-        (path tile_25_12 tile_26_12)
         (path tile_25_13 tile_24_13)
         (path tile_25_13 tile_25_12)
         (path tile_25_13 tile_26_13)
-        (path tile_26_1 tile_25_1)
-        (path tile_26_1 tile_26_2)
-        (path tile_26_1 tile_27_1)
-        (path tile_26_2 tile_25_2)
-        (path tile_26_2 tile_26_1)
-        (path tile_26_2 tile_26_3)
-        (path tile_26_2 tile_27_2)
         (path tile_26_3 tile_25_3)
-        (path tile_26_3 tile_26_2)
-        (path tile_26_3 tile_26_4)
         (path tile_26_3 tile_27_3)
-        (path tile_26_4 tile_25_4)
-        (path tile_26_4 tile_26_3)
-        (path tile_26_4 tile_26_5)
-        (path tile_26_4 tile_27_4)
-        (path tile_26_5 tile_25_5)
-        (path tile_26_5 tile_26_4)
-        (path tile_26_5 tile_26_6)
-        (path tile_26_5 tile_27_5)
-        (path tile_26_6 tile_25_6)
-        (path tile_26_6 tile_26_5)
-        (path tile_26_6 tile_26_7)
-        (path tile_26_6 tile_27_6)
-        (path tile_26_7 tile_25_7)
-        (path tile_26_7 tile_26_6)
-        (path tile_26_7 tile_26_8)
-        (path tile_26_7 tile_27_7)
-        (path tile_26_8 tile_25_8)
-        (path tile_26_8 tile_26_7)
-        (path tile_26_8 tile_26_9)
-        (path tile_26_8 tile_27_8)
-        (path tile_26_9 tile_25_9)
-        (path tile_26_9 tile_26_8)
-        (path tile_26_9 tile_26_10)
-        (path tile_26_9 tile_27_9)
-        (path tile_26_10 tile_25_10)
-        (path tile_26_10 tile_26_9)
-        (path tile_26_10 tile_26_11)
-        (path tile_26_10 tile_27_10)
-        (path tile_26_11 tile_25_11)
-        (path tile_26_11 tile_26_10)
-        (path tile_26_11 tile_26_12)
-        (path tile_26_11 tile_27_11)
-        (path tile_26_12 tile_25_12)
-        (path tile_26_12 tile_26_11)
-        (path tile_26_12 tile_26_13)
-        (path tile_26_12 tile_27_12)
         (path tile_26_13 tile_25_13)
-        (path tile_26_13 tile_26_12)
         (path tile_26_13 tile_27_13)
-        (path tile_27_1 tile_26_1)
         (path tile_27_1 tile_27_2)
         (path tile_27_1 tile_28_1)
-        (path tile_27_2 tile_26_2)
         (path tile_27_2 tile_27_1)
         (path tile_27_2 tile_27_3)
         (path tile_27_2 tile_28_2)
@@ -2009,39 +1955,30 @@
         (path tile_27_3 tile_27_2)
         (path tile_27_3 tile_27_4)
         (path tile_27_3 tile_28_3)
-        (path tile_27_4 tile_26_4)
         (path tile_27_4 tile_27_3)
         (path tile_27_4 tile_27_5)
         (path tile_27_4 tile_28_4)
-        (path tile_27_5 tile_26_5)
         (path tile_27_5 tile_27_4)
         (path tile_27_5 tile_27_6)
         (path tile_27_5 tile_28_5)
-        (path tile_27_6 tile_26_6)
         (path tile_27_6 tile_27_5)
         (path tile_27_6 tile_27_7)
         (path tile_27_6 tile_28_6)
-        (path tile_27_7 tile_26_7)
         (path tile_27_7 tile_27_6)
         (path tile_27_7 tile_27_8)
         (path tile_27_7 tile_28_7)
-        (path tile_27_8 tile_26_8)
         (path tile_27_8 tile_27_7)
         (path tile_27_8 tile_27_9)
         (path tile_27_8 tile_28_8)
-        (path tile_27_9 tile_26_9)
         (path tile_27_9 tile_27_8)
         (path tile_27_9 tile_27_10)
         (path tile_27_9 tile_28_9)
-        (path tile_27_10 tile_26_10)
         (path tile_27_10 tile_27_9)
         (path tile_27_10 tile_27_11)
         (path tile_27_10 tile_28_10)
-        (path tile_27_11 tile_26_11)
         (path tile_27_11 tile_27_10)
         (path tile_27_11 tile_27_12)
         (path tile_27_11 tile_28_11)
-        (path tile_27_12 tile_26_12)
         (path tile_27_12 tile_27_11)
         (path tile_27_12 tile_27_13)
         (path tile_27_12 tile_28_12)
@@ -2282,22 +2219,17 @@
         (path tile_32_9 tile_31_9)
         (path tile_32_9 tile_32_8)
         (path tile_32_9 tile_32_10)
-        (path tile_32_9 tile_33_9)
         (path tile_32_10 tile_31_10)
         (path tile_32_10 tile_32_9)
         (path tile_32_10 tile_32_11)
-        (path tile_32_10 tile_33_10)
         (path tile_32_11 tile_31_11)
         (path tile_32_11 tile_32_10)
         (path tile_32_11 tile_32_12)
-        (path tile_32_11 tile_33_11)
         (path tile_32_12 tile_31_12)
         (path tile_32_12 tile_32_11)
         (path tile_32_12 tile_32_13)
-        (path tile_32_12 tile_33_12)
         (path tile_32_13 tile_31_13)
         (path tile_32_13 tile_32_12)
-        (path tile_32_13 tile_33_13)
         (path tile_33_1 tile_32_1)
         (path tile_33_1 tile_33_2)
         (path tile_33_1 tile_34_1)
@@ -2327,27 +2259,7 @@
         (path tile_33_7 tile_34_7)
         (path tile_33_8 tile_32_8)
         (path tile_33_8 tile_33_7)
-        (path tile_33_8 tile_33_9)
         (path tile_33_8 tile_34_8)
-        (path tile_33_9 tile_32_9)
-        (path tile_33_9 tile_33_8)
-        (path tile_33_9 tile_33_10)
-        (path tile_33_9 tile_34_9)
-        (path tile_33_10 tile_32_10)
-        (path tile_33_10 tile_33_9)
-        (path tile_33_10 tile_33_11)
-        (path tile_33_10 tile_34_10)
-        (path tile_33_11 tile_32_11)
-        (path tile_33_11 tile_33_10)
-        (path tile_33_11 tile_33_12)
-        (path tile_33_11 tile_34_11)
-        (path tile_33_12 tile_32_12)
-        (path tile_33_12 tile_33_11)
-        (path tile_33_12 tile_33_13)
-        (path tile_33_12 tile_34_12)
-        (path tile_33_13 tile_32_13)
-        (path tile_33_13 tile_33_12)
-        (path tile_33_13 tile_34_13)
         (path tile_34_1 tile_33_1)
         (path tile_34_1 tile_34_2)
         (path tile_34_1 tile_35_1)
@@ -2377,25 +2289,15 @@
         (path tile_34_7 tile_35_7)
         (path tile_34_8 tile_33_8)
         (path tile_34_8 tile_34_7)
-        (path tile_34_8 tile_34_9)
         (path tile_34_8 tile_35_8)
-        (path tile_34_9 tile_33_9)
-        (path tile_34_9 tile_34_8)
-        (path tile_34_9 tile_34_10)
-        (path tile_34_9 tile_35_9)
-        (path tile_34_10 tile_33_10)
-        (path tile_34_10 tile_34_9)
         (path tile_34_10 tile_34_11)
         (path tile_34_10 tile_35_10)
-        (path tile_34_11 tile_33_11)
         (path tile_34_11 tile_34_10)
         (path tile_34_11 tile_34_12)
         (path tile_34_11 tile_35_11)
-        (path tile_34_12 tile_33_12)
         (path tile_34_12 tile_34_11)
         (path tile_34_12 tile_34_13)
         (path tile_34_12 tile_35_12)
-        (path tile_34_13 tile_33_13)
         (path tile_34_13 tile_34_12)
         (path tile_34_13 tile_35_13)
         (path tile_35_1 tile_34_1)
@@ -2429,10 +2331,8 @@
         (path tile_35_8 tile_35_7)
         (path tile_35_8 tile_35_9)
         (path tile_35_8 tile_36_8)
-        (path tile_35_9 tile_34_9)
         (path tile_35_9 tile_35_8)
         (path tile_35_9 tile_35_10)
-        (path tile_35_9 tile_36_9)
         (path tile_35_10 tile_34_10)
         (path tile_35_10 tile_35_9)
         (path tile_35_10 tile_35_11)
@@ -2477,14 +2377,8 @@
         (path tile_36_7 tile_37_7)
         (path tile_36_8 tile_35_8)
         (path tile_36_8 tile_36_7)
-        (path tile_36_8 tile_36_9)
         (path tile_36_8 tile_37_8)
-        (path tile_36_9 tile_35_9)
-        (path tile_36_9 tile_36_8)
-        (path tile_36_9 tile_36_10)
-        (path tile_36_9 tile_37_9)
         (path tile_36_10 tile_35_10)
-        (path tile_36_10 tile_36_9)
         (path tile_36_10 tile_36_11)
         (path tile_36_10 tile_37_10)
         (path tile_36_11 tile_35_11)
@@ -2527,27 +2421,17 @@
         (path tile_37_7 tile_38_7)
         (path tile_37_8 tile_36_8)
         (path tile_37_8 tile_37_7)
-        (path tile_37_8 tile_37_9)
         (path tile_37_8 tile_38_8)
-        (path tile_37_9 tile_36_9)
-        (path tile_37_9 tile_37_8)
-        (path tile_37_9 tile_37_10)
-        (path tile_37_9 tile_38_9)
         (path tile_37_10 tile_36_10)
-        (path tile_37_10 tile_37_9)
         (path tile_37_10 tile_37_11)
-        (path tile_37_10 tile_38_10)
         (path tile_37_11 tile_36_11)
         (path tile_37_11 tile_37_10)
         (path tile_37_11 tile_37_12)
-        (path tile_37_11 tile_38_11)
         (path tile_37_12 tile_36_12)
         (path tile_37_12 tile_37_11)
         (path tile_37_12 tile_37_13)
-        (path tile_37_12 tile_38_12)
         (path tile_37_13 tile_36_13)
         (path tile_37_13 tile_37_12)
-        (path tile_37_13 tile_38_13)
         (path tile_38_1 tile_37_1)
         (path tile_38_1 tile_38_2)
         (path tile_38_1 tile_39_1)
@@ -2577,27 +2461,7 @@
         (path tile_38_7 tile_39_7)
         (path tile_38_8 tile_37_8)
         (path tile_38_8 tile_38_7)
-        (path tile_38_8 tile_38_9)
         (path tile_38_8 tile_39_8)
-        (path tile_38_9 tile_37_9)
-        (path tile_38_9 tile_38_8)
-        (path tile_38_9 tile_38_10)
-        (path tile_38_9 tile_39_9)
-        (path tile_38_10 tile_37_10)
-        (path tile_38_10 tile_38_9)
-        (path tile_38_10 tile_38_11)
-        (path tile_38_10 tile_39_10)
-        (path tile_38_11 tile_37_11)
-        (path tile_38_11 tile_38_10)
-        (path tile_38_11 tile_38_12)
-        (path tile_38_11 tile_39_11)
-        (path tile_38_12 tile_37_12)
-        (path tile_38_12 tile_38_11)
-        (path tile_38_12 tile_38_13)
-        (path tile_38_12 tile_39_12)
-        (path tile_38_13 tile_37_13)
-        (path tile_38_13 tile_38_12)
-        (path tile_38_13 tile_39_13)
         (path tile_39_1 tile_38_1)
         (path tile_39_1 tile_39_2)
         (path tile_39_1 tile_40_1)
@@ -2629,23 +2493,18 @@
         (path tile_39_8 tile_39_7)
         (path tile_39_8 tile_39_9)
         (path tile_39_8 tile_40_8)
-        (path tile_39_9 tile_38_9)
         (path tile_39_9 tile_39_8)
         (path tile_39_9 tile_39_10)
         (path tile_39_9 tile_40_9)
-        (path tile_39_10 tile_38_10)
         (path tile_39_10 tile_39_9)
         (path tile_39_10 tile_39_11)
         (path tile_39_10 tile_40_10)
-        (path tile_39_11 tile_38_11)
         (path tile_39_11 tile_39_10)
         (path tile_39_11 tile_39_12)
         (path tile_39_11 tile_40_11)
-        (path tile_39_12 tile_38_12)
         (path tile_39_12 tile_39_11)
         (path tile_39_12 tile_39_13)
         (path tile_39_12 tile_40_12)
-        (path tile_39_13 tile_38_13)
         (path tile_39_13 tile_39_12)
         (path tile_39_13 tile_40_13)
         (path tile_40_1 tile_39_1)
@@ -3336,14 +3195,23 @@
         (path tile_53_13 tile_52_13)
         (path tile_53_13 tile_53_12)
 
+        ;; Key-Door relationships
+        (opens key1 door1)
+        (opens key2 door2)
+        (opens key3 door3)
+
         ;; Box-Zone relationships
         (matches boxA zoneA)
+        (matches boxB zoneB)
+        (matches boxC zoneC)
 
     )
 
     (:goal
         (and
             (boxat boxA tile_11_12)
+            (boxat boxB tile_33_2)
+            (boxat boxC tile_20_12)
         )
     )
 )
