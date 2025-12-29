@@ -62,11 +62,8 @@ def heuristic_manhattan(maze: Maze, state: State) -> int:
     
     return total_cost
 
-
+# Euclidean Distance Heuristic
 def heuristic_euclidean(maze: Maze, state: State) -> float:
-    # Euclidean Distance Heuristic (Heuristic 2)
-    
-    # Estimates cost to goal using Euclidean distances.
     # Considers:
     # - If carrying a box: direct distance to its drop zone
     # - If not carrying: distance to nearest misplaced box + box-to-zone distances
@@ -89,9 +86,11 @@ def heuristic_euclidean(maze: Maze, state: State) -> float:
             # Euclidean distance from Soko to drop zone
             total_cost += euclidean_distance(soko_pos, zone_pos)
     else:
-        # Not carrying - need to get boxes to zones
+        # Not carrying - need to 
+        # get boxes to zones
         misplaced_boxes = []
         
+        # Identify misplaced boxes
         for box_id, box_pos in box_positions.items():
             zone_pos = maze.zones.get(box_id)
             if zone_pos and box_pos != zone_pos:
@@ -123,19 +122,11 @@ def heuristic_euclidean(maze: Maze, state: State) -> float:
     
     return total_cost
 
-
+# Get a heuristic function by name
 def get_heuristic(heuristic_name: str):
-    # Get a heuristic function by name.
-    
-    # Args:
-    #     - heuristic_name: 'manhattan' or 'euclidean'
-    
-    # Returns:
-    #      -The corresponding heuristic function
-    
     heuristics = {
-        'manhattan': heuristic_manhattan,
-        'euclidean': heuristic_euclidean,
+        'manhattan': heuristic_manhattan, # The Manhattan heuristic function
+        'euclidean': heuristic_euclidean, # The Euclidean heuristic function
         '1': heuristic_manhattan,
         '2': heuristic_euclidean,
         'a': heuristic_manhattan,
@@ -146,4 +137,4 @@ def get_heuristic(heuristic_name: str):
     if name not in heuristics:
         raise ValueError(f"Unknown heuristic: {heuristic_name}. Choose 'manhattan' or 'euclidean'")
     
-    return heuristics[name]
+    return heuristics[name] # Return the heuristic function
