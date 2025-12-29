@@ -5,7 +5,8 @@ from typing import Dict, Tuple, Set
 debug = False
 
 def parse_maze_file(file_path: str):
-    # Reads a maze CSV file, extracts all maze objects, and returns a Maze object and the initial State.
+    # Reads a maze CSV file, extracts all maze objects, and returns:
+    #       cells, boxes, zones, keys, doors, soko_coords, adjacencies
 
     # Attempts to open and read the maze file
     try:
@@ -124,7 +125,6 @@ def parse_maze_file(file_path: str):
 def generate_problem_file(maze_file: str, problem_name: str, output_file: str):
     """Generate a PDDL problem file from a maze CSV file."""
     
-    # Parse the maze file
     cells, boxes, zones, keys, doors, soko_coords, adjacencies = parse_maze_file(maze_file)
     
     # Start building the PDDL problem file
