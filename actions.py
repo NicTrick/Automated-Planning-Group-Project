@@ -77,7 +77,6 @@ def drop_box(state: State, box_id: str, zone_pos: Tuple[int, int]) -> State:
         g=state.g + 1
     )
 
-
 # Generate all valid successor states and their corresponding actions. Returns a list of tuples (new_state, action_name)
 def get_successors(maze: Maze, state: State) -> List[Tuple[State, str]]:
     successors = []
@@ -91,6 +90,7 @@ def get_successors(maze: Maze, state: State) -> List[Tuple[State, str]]:
         ((x, y + 1), "Down")
     ]
     
+    # The for loop that makes the movements occur
     for new_pos, action_name in movement_actions:
         if can_move_to(maze, state, new_pos):
             new_state = move_soko(state, new_pos, action_name)

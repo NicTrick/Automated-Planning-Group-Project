@@ -20,7 +20,7 @@ def print_debug(message: str):
     if debug:
         print("\t[DEBUG]", message)
 
-
+# Validates a plan by executing it step-by-step and checking if it reaches the goal
 def validate_plan(maze: Maze, initial_state: State, plan: list) -> bool:
     current_state = initial_state
     
@@ -111,16 +111,17 @@ def visualize_maze(maze: Maze, state: State):
                 formatted_row += f"{cell:^4}"
         print(formatted_row)
     
+    #  Displays eveything (if anything) SOKO has in his inventory
     inventory = "\n======= INVENTORY ======="
     if state.keys_owned:
-        inventory += "\n\n    Keys: [" + ", ".join(sorted(state.keys_owned)) + "]  "
+        inventory += "\n\n    Keys: [" + ", ".join(sorted(state.keys_owned)) + "]  " # List of keys currently in the inventory
     else:
-        inventory += "\n\n    Keys: []"
+        inventory += "\n\n    Keys: []" # No keys owned
     
     if state.carried_box:
-        inventory += f"\n    Carrying: Box {state.carried_box}"
+        inventory += f"\n    Carrying: Box {state.carried_box}" # WHich box is being carried
     else:
-        inventory += "\n    Carrying:"
+        inventory += "\n    Carrying:" # No box is currently being carried
     
     print(inventory)
 
@@ -162,7 +163,7 @@ def main():
     print("\t2. Greedy Best-First Search")
     print("\t3. A* Search")
     print("\t4. Enforced Hill Climb")
-    algo_input = input("Enter the number corresponding to your choice: ").strip()
+    algo_input = input("Enter the number corresponding to your choice: ").strip() # User makes selection
     
     # Map algorithm choice
     algo_map = {

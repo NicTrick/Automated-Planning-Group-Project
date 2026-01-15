@@ -13,13 +13,13 @@ def euclidean_distance(pos1: Tuple[int, int], pos2: Tuple[int, int]) -> float:
 
 def heuristic_manhattan(maze: Maze, state: State) -> int:
     # Considers:
-    #   If carrying a box: distance to its drop zone
-    #   If not carrying: distance to nearest misplaced box + box-to-zone distances
-    #   Penalty for doors that require keys we don't have
+    #  - If carrying a box: distance to its drop zone
+    #  - If not carrying: distance to nearest misplaced box + box-to-zone distances
+    #  - Penalty for doors that require keys we don't have
     #
     # Properties:
-    #   Admissible: Never overestimates (Manhattan is admissible for grid movement)
-    #   Informative: Considers current carrying state and all misplaced boxes
+    #  - Admissible: Never overestimates (Manhattan is admissible for grid movement)
+    #  - Informative: Considers current carrying state and all misplaced boxes
     
     total_cost = 0
     soko_pos = state.soko_pos

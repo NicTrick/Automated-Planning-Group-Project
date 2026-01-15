@@ -76,7 +76,7 @@ def parse_maze_file(file_path: str, debug: bool = False) -> Tuple[Maze, State]:
     if debug:
         print("Parsed Maze Elements:")
         print("Soko's Position:", soko_coords) # Print the starting position of Soko
- 
+
         print("Walls:")
         print("Total Walls:", len(walls)) # Print the total number of walls
         print(walls)
